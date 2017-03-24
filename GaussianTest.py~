@@ -1,0 +1,25 @@
+from MyGaussianPdf import MyGaussianPdf
+import numpy as np
+import matplotlib.pyplot as plt
+
+gauss= MyGaussianPdf(3, 0.3, 2, 4)
+
+yrand , xrand =gauss.gaussianRand()
+
+vec=[0]*1000
+vec2=[0]*1000
+i=0
+while i<1000:
+      vec[i]= gauss.calcY(i)
+      i= i+1
+while i<1000:
+      vec[i]=i*0.02
+      i=i+1
+
+
+plt.plot(xrand,rand,"o")
+plt.show()
+
+
+
+

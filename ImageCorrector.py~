@@ -1,0 +1,104 @@
+import matplotlib.pyplot as plt
+from scipy import misc
+import numpy as np
+from numpy import fft
+
+im= misc.imread("desync2.pgm")
+
+
+plt.imshow(im, cmap=plt.cm.gray)
+plt.show()
+
+array1=im[1,:]
+farray1=fft.fft(array1)
+
+a=im[1,:]
+#b=[1]*np.rand(-100, 100)
+i=0
+#while i<(len(b)-shift):
+ #     b[i]=a[i+shif
+
+correl= np.correlate(a, a, mode='same')
+
+#cuta=a[2:]
+#print(cuta)
+
+shiftVect=[]
+i=1
+while i<(len(im[:,1])):
+      prevFourier=fft.fft(im[i-1,:])
+      fourier= fft.fft(im[i,:])
+      vectFour=fourier*(np.conj(prevFourier))
+      Correl=fft.ifft(vectFour)
+      shiftFourier=np.argmax(Correl)
+      shiftVect.append(shiftFourier)
+      i=i+1
+
+shiftedIm=np.copy(im)
+lenLine=len(im[1,:])
+
+#implementing a function which finds the shift between two adjacent lines by computing the product of their fourier transforms and then converting it into real space
+
+def ShiftFinder (a=list, b=list):
+    f1=fft.fft(a)
+    f2=fft.fft(b)
+    vect= f1*(np.conj(f2))
+    corr=fft.ifft(vect)
+    shift= np.argmax(corr)
+    return shift
+
+      
+i=2
+while i<(len(im[:,1])-4):
+    
+       shift=ShiftFinder(shiftedIm[i-1,:], im[i,:])
+       shift0= ShiftFinder(shiftedIm[i-2,:], im[i,:])  
+       shift2= ShiftFinder(im[i+1,:], im[i,:])  
+       shift3= ShiftFinder(im[i+2,:], im[i,:]) 
+       shift4= ShiftFinder(im[i+3,:], im[i,:])
+       shift5= ShiftFinder(im[i+4,:], im[i,:])                         
+      
+      
+         
+       if shift2<2:
+          shift=0
+
+       elif shift3<2:
+            shift=0
+           
+       elif shift4<2:
+            shift=0
+      
+       elif shift0<2:
+            shift=0
+           
+       elif shift5<2:
+            shift=0 
+         
+       j=0
+   
+       while j<lenLine:
+             shiftedIm[i,j]=im[i,(j-shift)]
+             if j>(lenLine-shift):
+                shiftedIm[i,j]=shiftedIm[i-1,j]
+             elif j<shift:
+                  shiftedIm[i,j]=shiftedIm[i-1,j]
+             else:
+                 shiftedIm[i,j]=shiftedIm[i,j]
+               
+             j=j+1
+       i=i+1
+
+ave=np.mean(shiftVect)
+
+#plt.plot(shiftVect)
+
+imDiff=shiftedIm-im
+plt.imshow(shiftedIm, cmap=plt.cm.gray)
+plt.show()
+
+plt.plot(shiftVect)
+plt.show()
+
+   
+

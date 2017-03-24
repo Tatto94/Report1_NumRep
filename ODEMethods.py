@@ -1,0 +1,64 @@
+
+import numpy as np
+import math
+import matplotlib.pyplot as plt
+#implementing methods which compute the values of the quadratic polynomial function 
+
+def polynomial(x):
+    calcx= 1-(6*x)+(3*x*x)    
+    return calcx
+
+#implementing the Euler method for the quadratic polynomial function
+#determining the length of a step
+step=0.5
+i=0
+#initialising variable y
+y= 0
+yvalues=[]
+while i<40000:
+      y=y+(step*polynomial(i)) 
+      yvalues.append(y)
+      i=i+1
+
+#printing the estimated function
+plt.plot(yvalues)
+plt.show()
+
+#computing the analytic solution to the differential equation with the quadratic polynomial
+yreal=[]
+i=0
+j=0
+while i<40000:
+      j=(step*i)+j
+      y= j-(3*j*j)+(j*j*j)
+      yreal.append(y)
+      i=i+1
+#plotting the analytical solution
+plt.plot(yreal)
+plt.show()
+
+#implementing RK-MP method for the quadratic polynomial
+y= 0
+yvalues2=[]
+#initialising variables xmid and ymid
+xmid=0
+ymid=0
+i=0
+while i<40000:
+      xmid=xmid+(0.5*step)
+      ymid= 1+(0.5*step*polynomial(i))+ymid
+      y=y+(step*polynomial(xmid)) 
+      yvalues2.append(y)
+      i=i+1
+
+plt.plot(yvalues2)
+plt.show()    
+      
+      
+
+
+
+
+
+
+

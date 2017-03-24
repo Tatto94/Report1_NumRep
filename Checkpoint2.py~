@@ -1,0 +1,98 @@
+#importing the packages ncessary to perform mathematical operations and plotting the functions
+import numpy as np
+import math
+import matplotlib.pyplot as plt
+
+
+
+#constructing the function that represents the charge distribution, for each x value it gives the value of p(x)
+
+def chargeDist(x):
+    if 1< x < 2:
+       calcx= 1
+    if 2<=x<=3:
+       calcx=-1
+    if x>4:
+       print("The x value is outside the boundaries [0,4]")
+    if 0<= x <=1 or 3< x <=4:
+       calcx=0
+    return calcx
+        
+
+#implementing the Euler method to perform the numerical integration of the charge distribution
+
+#determining the size of a step
+step= 0.01
+y=0
+yVect= []
+i=0
+x=0
+while i<400:
+    x= i*step
+    y=y+(step*chargeDist(x))
+    yVect.append(y)
+    i=i+1
+
+
+
+#plotting the electric field in the range [0,4]
+plt.plot(yVect)
+plt.show()
+
+#implementing the fourth order Runge-Kutta method toi perform the numerical integration of the charge distribution
+
+i=0
+x=0
+y=0
+yVect2=[]
+while i<400:
+      x= i*step
+      k1=chargeDist(x)
+      k2=chargeDist(x+(0.5*step))
+      k3=k2
+      k4=chargeDist(x+step)
+      y=y+(step*((k1/6)+(k2/3)+(k3/3)+(k4/6)))
+      yVect2.append(y)
+      i=i+1
+
+
+#plotting the electric field in the range [0,4] obtained using the RK-4 method
+
+plt.plot(yVect2)
+plt.show()
+   
+
+#implementing the Euler method to find the voltage V(x) (the values of E(x) that are used are those in yVect2)
+i=0
+x=0
+y=0
+VoltVect=[]
+while i<400:
+       x= i*step
+       y=y-(step*yVect2[i])
+       VoltVect.append(y)
+       i=i+1
+ 
+
+#plotting the voltage V(x) computed using the Euler method
+plt.plot(VoltVect)
+plt.show()
+
+
+#implementing the Euler method to find the voltage V(x) (the values of E(x) that are used are those in yVect2)      
+i=0
+x=0
+y=0
+step=0.02
+VoltVect2=[]
+while i<200:
+      k1=-yVect2[i]
+      k2=-yVect2[i+1]
+      k3=k2
+      k4=-yVect2[i+2]
+      y=y+(step*((k1/6)+(k2/3)+(k3/3)+(k4/6)))
+      VoltVect2.append(y)
+      i=i+1
+
+plt.plot(VoltVect2)
+plt.show()

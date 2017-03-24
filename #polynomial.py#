@@ -1,0 +1,6 @@
+import numpy as np
+import math
+class polynomial:
+     
+#constructor: defines the object "pollynomial"
+      def polyn

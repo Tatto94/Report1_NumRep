@@ -1,0 +1,12 @@
+from MyMatrix import MyMatrix
+import numpy as np
+
+data= np.loadtxt("testData.txt")
+
+matr= MyMatrix(10,3)
+matr.set_matrix(data)
+
+print(matr)
+
+
+
